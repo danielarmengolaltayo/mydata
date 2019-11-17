@@ -72,6 +72,12 @@ const relationshipSchema = new mongoose.Schema({
     }
 });
 
+//disable versioning
+//https://aaronheckmann.tumblr.com/post/48943525537/mongoose-v3-part-1-versioning
+entitySchema.set('versionKey', false);
+entitySchema.set('versionKey', false);
+entitySchema.set('versionKey', false);
+
 const Ent = mongoose.model("Entity", entitySchema);
 const Int = mongoose.model("Interaction", interactionSchema);
 const Rel = mongoose.model("Relationship", relationshipSchema);
