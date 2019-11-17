@@ -1,0 +1,29 @@
+<table>
+    <tr>
+        <td>
+            <form class="item" action="/new" method="post">
+                <input type="text" name="ant" placeholder="first dot" autocomplete="off" autofocus>
+                <input type="text" name="bat" placeholder="second dot" autocomplete="off">
+                <input type="text" name="connection" id="inputConnection" placeholder="relationship (optional)"
+                    autocomplete="off">
+                <button type="submit">add</button>
+            </form>
+        </td>
+        <td>
+            <form class="item" action="/reset" method="post">
+                <button type="submit">reset db</button>
+            </form>
+        </td>
+        <td>
+            <%= log %>
+        </td>
+    </tr>
+</table>
+
+<table>
+    <tr>
+        <td>
+            <button type="button" id="test">test</button>
+        </td>
+    </tr>
+</table>

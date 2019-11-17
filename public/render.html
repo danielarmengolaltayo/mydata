@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Render</title>
+    <script src="render.js"></script>
+    <link rel="stylesheet" href="css/render.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+
+<body>
+    <div id="controlPanel">
+        <table>
+            <tr>
+                <td>
+                    <form class="item" action="/new" method="post">
+                        <input type="text" name="ant" placeholder="a" autocomplete="off" autofocus>
+                        <input type="text" name="bat" placeholder="b" autocomplete="off">
+                        <input type="text" name="connection" id="inputConnection" placeholder="c (optional)"
+                            autocomplete="off">
+                        <button type="submit">add</button>
+                    </form>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <%= log %>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button type="button" id="entitiesButton">entities</button>
+                    <button type="button" id="date">date</button>
+                    <button type="button" id="time">time</button>
+                    <button type="button" id="filterButton">last/all interactions</button>
+                    (hide/show)
+                    <br>
+                    <br>
+                    <a href="./entities" target="_blank"><button type="button">entities</button></a>
+                    <a href="./interactions" target="_blank"><button type="button">interactions</button></a>
+                    <a href="./relationships" target="_blank"><button type="button">relationships</button></a>
+                    (show raw data in a new tab)
+                </td>
+            </tr>
+            <!-- <tr>
+                <td>
+                    <form class="item" action="/reset" method="post">
+                        <button type="submit">reset db</button>
+                    </form>
+                </td>
+            </tr> -->
+        </table>
+    </div>
+
+    <div id="content">
+        <table id="entities" class="data">
+            <thead>
+                <tr>
+                    <td>
+                        <i class="material-icons">scatter_plot</i>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong>entities</strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        &nbsp;
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>a/b</span>&nbsp;<span class="grey">(relationships/interactions)</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        &nbsp;
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        &nbsp;
+                    </td>
+                </tr>
+            </thead>
+
+        </table>
+
+        <table id="interactions" class="data">
+            <thead>
+                <tr>
+                    <td>
+                        <i class="material-icons">share</i>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong>relationships</strong>&nbsp;<span id="filterText">(last interaction)</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        &nbsp;
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="grey">date/time</span>&nbsp;&nbsp;<span>a&nbsp;———&nbsp;b</span>&nbsp;<span
+                            class="connection">c</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        &nbsp;
+                    </td>
+                </tr>
+            </thead>
+
+        </table>
+    </div>
+
+</body>
+
+</html>

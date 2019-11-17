@@ -1,0 +1,50 @@
+<%- include("header") -%>
+<%- include("form") -%>
+
+  <table>
+    <thead>
+      <tr>
+        <td>
+          <strong>dots</strong><span class="grey"> (<%= listDots.length %>)</span>
+        </td>
+        <td>
+          <strong>lines</strong><span class="grey"> (<%= listLines.length %>)</span>
+        </td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <ul>
+            <% listDots.reverse().forEach(function(dot){ %>
+              <li>
+                <!-- <form action="/done" method="post"> -->
+                  <span><%= dot.val %></span>
+                  <% if(dot.rel.length > 1){ %>
+                    <span class="grey">(<%= dot.rel.length %>)</span>
+                  <% } %>
+                  <input type="hidden" name="lineId" value="<%= dot._id %>"></input>
+                <!-- </form> -->
+              </li>
+            <% }); %>
+          </ul>
+        </td>
+        <td>
+          <ul id="dotless">
+            <% listLines.reverse().forEach(function(line){ %>
+            <li>
+              <span><%= line.date %></span>
+              <span><%= line.aVal %></span>
+              <span> ——— </span>
+              <span><%= line.bVal %></span>
+              <span><%= line.c %></span>
+            </li>
+            <% }); %>
+          </ul>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+
+<%- include("footer") -%>

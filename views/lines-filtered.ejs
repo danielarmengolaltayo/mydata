@@ -1,0 +1,26 @@
+<% listLines.reverse().forEach(function(line){ %>
+    
+    <% if(line.last){ %>
+    
+        <% for(let i = 0; i < settings.linesId.length; i++){ %>
+            
+            <% if(settings.linesId[i] === line._id){ %>
+                <li style=<%= settings.color %>>
+                    <% break; %>
+            <% }else{ %>
+                <li>
+            <% } %>
+        <% } %>
+
+                    <span class="grey">(<%= line.d %>) </span>
+                    <span><%= line.aVal %></span>
+                    <span> ——— </span>
+                    <span><%= line.bVal %></span>
+                    <% if(line.c){ %>
+                    <span>(<%= line.c %>)</span>
+                    <% } %>
+                </li>
+
+    <% } %>
+
+<% }); %>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title>My Data</title>
+    <link rel="stylesheet" href="css/raw.css">
+    <script src="../public/script.js"></script>
+</head>
+
+<body>
+
+    <table>
+        <thead>
+            <tr>
+                <td colspan="2">
+                    <strong>entities</strong>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <strong>self</strong>
+                </td>
+                <td>
+                    <strong>others</strong>
+                </td>
+                <td class="grey">
+                    _id
+                </td>
+                <td class="grey">
+                    __v
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            <% data.reverse().forEach(function(ent){ %>
+            <tr>
+                <td>
+                    <%= ent.self %>
+                </td>
+                <td>
+                    <ul id="dotless">
+                        <% ent.others.forEach(function(other){ %>
+                        <li>
+                            <%= other %>
+                        </li>
+                        <% }); %>
+                    </ul>
+                </td>
+                <td class="grey">
+                    <%= ent._id %>
+                </td>
+                <td class="grey">
+                    <%= ent.__v %>
+                </td>
+            </tr>
+            <% }); %>
+        </tbody>
+    </table>
+
+</body>
+
+<footer>
+
+</footer>
+
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title>My Data</title>
+    <link rel="stylesheet" href="css/raw.css">
+    <script src="../public/script.js"></script>
+</head>
+
+<body>
+
+    <table>
+        <thead>
+            <tr>
+                <td colspan="4">
+                    <strong>interactions</strong>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <strong>a</strong>
+                </td>
+                <td>
+                    <strong>b</strong>
+                </td>
+                <td>
+                    <strong>c</strong>
+                </td>
+                <td>
+                    <strong>date</strong>
+                </td>
+                <td class="grey">
+                    _id
+                </td>
+                <td class="grey">
+                    __v
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            <% data.reverse().forEach(function(int){ %>
+            <tr>
+                <td class="line">
+                    <%= int.a %>
+                </td>
+                <td class="line">
+                    <%= int.b %>
+                </td>
+                <td class="line">
+                    <%= int.c %>
+                </td>
+                <td class="line">
+                    <%= int.date %>
+                </td>
+                <td class="grey line">
+                    <%= int._id %>
+                </td>
+                <td class="grey line">
+                    <%= int.__v %>
+                </td>
+            </tr>
+            <% }); %>
+        </tbody>
+    </table>
+
+</body>
+
+<footer>
+
+</footer>
+
+</html>
