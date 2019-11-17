@@ -3,22 +3,22 @@ Original data schema:
     Entities collection:
 
         self  Definition for the entity.
-              Required input.
+              (required input)
 
       others  List of relationships for this entity.
-              Relationship/s id/s.
+              (relationship/s id/s)
 
          _id  Id for this entry in the database.
 
 
     Interactions collection:
 
-           a  Entity id.
+           a  (entity id)
 
-           b  Entity id.
+           b  (entity id)
 
            c  Context for the interaction between the two entities.
-              Optional input.
+              (optional input)
 
         date  Creation date.
 
