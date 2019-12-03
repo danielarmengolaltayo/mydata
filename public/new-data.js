@@ -1,14 +1,14 @@
 const crud = require('./crud.js');
 
 //create new entry in the database: 2 entities + 1 interaction + 1 relationship
-module.exports = async function (Ent, Int, Rel, inputA, inputB, inputC) {
+module.exports = async function (Data, input) {
 
-    const validation = validateInputs(inputA, inputB);
+    const validation = validateInputs(input.a, input.b);
     let log = validation.log;
 
     if (validation.result) {
         try {
-            log = await addDataBase(Ent, Int, Rel, inputA, inputB, inputC);
+            log = await addDataBase(Data, input);
         } catch (err) { console.log("ERROR newData: " + err); }
     }
 
@@ -52,7 +52,7 @@ function validateInputs(inputA, inputB) {
 }
 
 
-async function addDataBase(Ent, Int, Rel, inputA, inputB, inputC) {
+async function addDataBase(Data, input) {
 
     let entA, entB, idInt, idRel, log;
 
@@ -60,8 +60,8 @@ async function addDataBase(Ent, Int, Rel, inputA, inputB, inputC) {
 
     // check if required inputs exist in the database
     try {
-        entA = await crud.findEntBySelf(Ent, inputA);
-        entB = await crud.findEntBySelf(Ent, inputB);
+        entA = await crud.findEntBySelf(Data.Ent, input.a);
+        entB = await crud.findEntBySelf(Data.Ent, input.b);
     } catch (err) { console.log("ERROR addDataBase(1): " + err); }
 
     // if both entities exist in the database, check if they established a relationship before
@@ -79,18 +79,18 @@ async function addDataBase(Ent, Int, Rel, inputA, inputB, inputC) {
 
     // create entities if they don't exist in the database
     try {
-        if (entA === null) entA = await crud.createEnt(Ent, inputA);
-        if (entB === null) entB = await crud.createEnt(Ent, inputB);
+        if (entA === null) entA = await crud.createEnt(Data.Ent, input.a);
+        if (entB === null) entB = await crud.createEnt(Data.Ent, input.b);
     } catch (err) { console.log("ERROR addDataBase(2): " + err); }
 
     // INTERACTIONS
 
     // if input for "c" is empty, transform it to "undefined" to prevent including it to the database later
-    if (inputC === "") inputC = undefined;
+    if (input.c === "") input.c = undefined;
 
     // create new interaction between the two entities
     try {
-        idInt = await crud.createInt(Int, entA._id, entB._id, inputC);
+        idInt = await crud.createInt(Data.Int, entA._id, entB._id, input.c);
     } catch (err) { console.log("ERROR addDataBase(3): " + err); }
 
     // RELATIONSHIPS
@@ -98,12 +98,12 @@ async function addDataBase(Ent, Int, Rel, inputA, inputB, inputC) {
     // create new relationship and update entities or just update existing relationship
     try {
         if (idRel === undefined) {
-            idRel = await crud.createRel(Rel, idInt);
-            await crud.updateEnt(Ent, entA._id, idRel);
-            await crud.updateEnt(Ent, entB._id, idRel);
+            idRel = await crud.createRel(Data.Rel, idInt);
+            await crud.updateEnt(Data.Ent, entA._id, idRel);
+            await crud.updateEnt(Data.Ent, entB._id, idRel);
             log = "new relationship";
         } else {
-            await crud.updateRel(Rel, idRel, idInt);
+            await crud.updateRel(Data.Rel, idRel, idInt);
             log = "update relationship";
         }
     } catch (err) { console.log("ERROR addDataBase(4): " + err); }
