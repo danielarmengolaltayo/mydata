@@ -2,10 +2,9 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const _ = require("lodash");
+const cors = require("cors");
 
 const loadData = require('./public/load-data.js');
-const cleanData = require('./public/clean-data.js');
-const expandData = require('./public/expand-data.js');
 const newData = require('./public/new-data.js');
 const loadSettings = require('./public/load-settings.js');
 
@@ -15,6 +14,7 @@ app.set('view engine', 'ejs');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
+app.use(cors());
 
 mongoose.connect("mongodb://localhost:27017/mydata", {
     useUnifiedTopology: true,
@@ -22,7 +22,7 @@ mongoose.connect("mongodb://localhost:27017/mydata", {
     useFindAndModify: false
 });
 
-mongoose.connection.on('error', console.error.bind( console, "Connection error:" ));
+mongoose.connection.on('error', console.error.bind(console, "Connection error:"));
 mongoose.connection.once('open', function () { console.log("Connected to the database."); });
 
 const entitySchema = new mongoose.Schema({
@@ -52,7 +52,8 @@ const interactionSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    //optional input from the user, connecting both entities
+    //optional input from the user
+    //context for the interaction between the two entities
     c: {
         type: String,
         minlength: 1,
@@ -75,12 +76,14 @@ const relationshipSchema = new mongoose.Schema({
 //disable versioning
 //https://aaronheckmann.tumblr.com/post/48943525537/mongoose-v3-part-1-versioning
 entitySchema.set('versionKey', false);
-entitySchema.set('versionKey', false);
-entitySchema.set('versionKey', false);
+interactionSchema.set('versionKey', false);
+relationshipSchema.set('versionKey', false);
 
 const Ent = mongoose.model("Entity", entitySchema);
 const Int = mongoose.model("Interaction", interactionSchema);
 const Rel = mongoose.model("Relationship", relationshipSchema);
+
+const Data = { Ent, Int, Rel };
 
 //user interface
 let ui = {
@@ -98,21 +101,7 @@ console.log("hello world");
 //////////// GET & POST
 
 app.get("/", function (req, res) {
-
-    // loadData(Dot, Line).
-    //     then(data => {
-    //         console.log("data loaded");
-    //         data = expandData(data);
-    //         console.log("data expanded");
-    //         settings = loadSettings(data);
-    //         res.render("simple-render", { listDots: data.dots, listLines: data.lines, settings: settings, log: "last log: " + ui.log });
-    //     }).
-    //     catch(err => {
-    //         console.log("ERROR load data (2)");
-    //         console.error(err);
-    //         res.send(err);
-    //     });
-
+    res.send("hello");
 });
 
 app.get("/entities", function (req, res) {
@@ -133,20 +122,18 @@ app.get("/relationships", function (req, res) {
     });
 });
 
-app.get("/expanded", function (req, res) {
-    res.sendFile(__dirname + "/public/expanded.html");
-});
+app.post("/newrelationship", function (req, res) {
 
-app.post("/new", function (req, res) {
+    const input = {
+        a: _.trim(req.body.inputA),
+        b: _.trim(req.body.inputB),
+        c: _.trim(req.body.inputC)
+    };
 
-    const inputA = _.trim(req.body.ant);
-    const inputB = _.trim(req.body.bat);
-    const inputC = _.trim(req.body.connection);
-
-    newData(Ent, Int, Rel, inputA, inputB, inputC).then(function (log) {
+    newData(Data, input).then(function (log) {
         console.log(log);
         ui.log = log;
-        res.redirect("/render");
+        res.redirect("http://localhost:8080/");
     });
 
 });
@@ -157,22 +144,28 @@ app.get("/reset", function (req, res) {
     });
 });
 
-
 app.get("/data", function (req, res) {
-    loadData.all(Ent, Int, Rel).
+    loadData.all(Data).
         then(data => {
-            data = expandData(data);
             res.send(data);
         }).
         catch(err => {
-            console.log("ERROR load data (2)");
+            console.log("ERROR get /data");
             console.error(err);
             res.send(err);
         });
 });
 
-app.get("/render", function (req, res) {
-    res.sendFile(__dirname + "/public/render.html");
+app.get("/data/:collection", function (req, res) {
+    loadData.one(Data[_.capitalize(req.params.collection)]).
+        then(data => {
+            res.send(data);
+        }).
+        catch(err => {
+            console.log("ERROR get /data/:collection");
+            console.error(err);
+            res.send(err);
+        });
 });
 
 
