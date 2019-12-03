@@ -10,12 +10,12 @@ module.exports = {
         } catch (err) { console.log("ERROR load data (one): " + err); }
     },
 
-    all: async function (Ent, Int, Rel) {
+    all: async function (Data) {
         try {
             let data = {};
-            data.ent = await findData(Ent);
-            data.int = await findData(Int);
-            data.rel = await findData(Rel);
+            data.ent = await findData(Data.Ent);
+            data.int = await findData(Data.Int);
+            data.rel = await findData(Data.Rel);
             console.log("all data loaded");
             return data;
         } catch (err) { console.log("ERROR load data (all): " + err); }
