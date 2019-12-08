@@ -36,16 +36,16 @@ function validateInputs(inputA, inputB) {
             return validation;
         } else {
             //check if both inputs are the same
-            if (inputA === inputB) {
-                validation.log = "error (both inputs are the same)";
-                console.log(validation.log);
-                validation.result = false;
-                return validation;
-            } else {
-                validation.log = "inputs ok";
-                validation.result = true;
-                return validation;
-            }
+            // if (inputA === inputB) {
+            //     validation.log = "error (both inputs are the same)";
+            //     console.log(validation.log);
+            //     validation.result = false;
+            //     return validation;
+            // } else {
+            validation.log = "inputs ok";
+            validation.result = true;
+            return validation;
+            // }
         }
     }
 
