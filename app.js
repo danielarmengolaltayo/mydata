@@ -140,7 +140,7 @@ app.post("/newrelationship", function (req, res) {
 
 app.get("/reset", function (req, res) {
     reset().then(function () {
-        res.redirect("/render");
+        res.redirect("http://localhost:8080/");
     });
 });
 
